@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { AdminRepository } from './service/admin.repository';
-
 @Module({
-  imports: [TypeOrmModule.forFeature()],
+  imports: [],
   controllers: [],
-  providers: [AdminRepository],
-  exports: [AdminRepository],
+  providers: [],
+  exports: [],
 })
 export class AdminModule {}
