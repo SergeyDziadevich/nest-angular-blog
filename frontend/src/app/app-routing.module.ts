@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { AdminGuestGuard } from './guards/admin-guest.guard';
-import {AdminAuthGuard} from "./guards/admin-auth.guard";
+import { AdminAuthGuard } from './guards/admin-auth.guard';
 
 const routes: Routes = [
   {
