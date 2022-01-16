@@ -1,0 +1,21 @@
+<h2>Login</h2>
+<form [formGroup]="formGroup" (input)="onFormChange()" (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <mat-label>Login</mat-label>
+    <input matInput formControlName="login" required>
+    <mat-error *ngIf="formGroup.hasError('required', 'login')">required field</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput formControlName="password" required>
+    <mat-error *ngIf="formGroup.hasError('required', 'password')">required field</mat-error>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary"
+          [disabled]="formGroup.invalid || !!formError">
+    Login
+  </button>
+
+  <mat-error *ngIf="formError">{{ formError }}</mat-error>
+</form>

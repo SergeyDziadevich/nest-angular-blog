@@ -22,7 +22,7 @@ export class AdminGuestGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return confirm('Are you guest (activate)?');
+    return true;
   }
 
   canLoad(
@@ -33,6 +33,6 @@ export class AdminGuestGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return confirm('Are you guest (load)?');
+    return true;
   }
 }
