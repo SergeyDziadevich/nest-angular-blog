@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundPageComponent } from './components/not-found-page/not-found-page.component';
 import { AdminGuestGuard } from './guards/admin-guest.guard';
 import { AdminAuthGuard } from './guards/admin-auth.guard';
+import { StoreModule } from '@ngrx/store';
+import { DEFAULT_ROUTER_FEATURENAME, routerReducer } from '@ngrx/router-store';
 
 const routes: Routes = [
   {
@@ -35,7 +37,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    StoreModule.forFeature(DEFAULT_ROUTER_FEATURENAME, routerReducer),
+    RouterModule.forRoot(routes),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
