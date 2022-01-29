@@ -10,6 +10,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { EffectsModule } from '@ngrx/effects';
 import {DEFAULT_ROUTER_FEATURENAME, routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
+import { AdminAuthStoreModule } from './store/admin-auth-store/admin-auth-store.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundPageComponent],
@@ -26,6 +27,7 @@ import {DEFAULT_ROUTER_FEATURENAME, routerReducer, StoreRouterConnectingModule} 
     }),
     EffectsModule.forRoot([]),
     StoreRouterConnectingModule.forRoot(),
+    AdminAuthStoreModule
   ],
   providers: [],
   bootstrap: [AppComponent],

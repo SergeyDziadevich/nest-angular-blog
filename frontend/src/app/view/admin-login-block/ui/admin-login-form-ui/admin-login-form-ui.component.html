@@ -13,7 +13,7 @@
   </mat-form-field>
 
   <button mat-raised-button color="primary"
-          [disabled]="formGroup.invalid || !!formError">
+          [disabled]="disabled || formGroup.invalid || !!formError">
     Login
   </button>
 
