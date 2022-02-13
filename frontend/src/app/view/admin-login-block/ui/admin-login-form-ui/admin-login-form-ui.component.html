@@ -8,7 +8,7 @@
 
   <mat-form-field>
     <mat-label>Password</mat-label>
-    <input matInput formControlName="password" required>
+    <input matInput type="password" formControlName="password" required>
     <mat-error *ngIf="formGroup.hasError('required', 'password')">required field</mat-error>
   </mat-form-field>
 
