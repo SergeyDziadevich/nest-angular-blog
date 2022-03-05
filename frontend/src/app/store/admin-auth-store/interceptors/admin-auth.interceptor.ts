@@ -4,11 +4,12 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { getAccessToken } from '../store/admin-auth-selectors';
-import { first, switchMap } from 'rxjs/operators';
+import { catchError, first, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class AdminAuthInterceptor implements HttpInterceptor {
@@ -30,7 +31,16 @@ export class AdminAuthInterceptor implements HttpInterceptor {
             })
           : request;
 
-        return next.handle(authRequest);
+        return next.handle(authRequest).pipe(
+          catchError((err) => {
+            if (err instanceof HttpErrorResponse && err.status === 401) {
+              console.log('Redirect on login page or sign out');
+              return EMPTY;
+            }
+
+            throw err;
+          })
+        );
       })
     );
   }
