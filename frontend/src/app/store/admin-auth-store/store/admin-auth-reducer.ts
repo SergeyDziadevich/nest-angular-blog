@@ -5,6 +5,12 @@ export const ADMIN_AUTH_FEATURE_NAME = 'admin-auth';
 
 export interface AuthData {
   accessToken: string;
+  id: number;
+  iat: number;
+  /**
+   * Expiring at timestamp
+   */
+  exp: number;
 }
 
 export interface AdminAuthState {
@@ -23,18 +29,22 @@ const initialState: AdminAuthState = {
 export const adminAuthReducer = createReducer(
   initialState,
   on(login, (state) => ({ ...state, loading: true })),
-  on(loginSuccess, (state, authData: AuthData) => ({
+  on(loginSuccess, (
+    state, {
+      type,
+      ...authData
+    }: any & AuthData) => ({
     ...state,
-    loading: false,
-    loaded: true,
-    serverError: '',
     authData,
+    loaded: true,
+    loading: false,
+    serverError: ''
   })),
-  on(loginFailed, (state, {serverError}) => ({
+  on(loginFailed, (state, { serverError }) => ({
     ...state,
     loading: false,
     loaded: true,
     serverError,
-    authData: null
+    authData: null,
   }))
 );

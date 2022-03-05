@@ -3,6 +3,7 @@ import {select, Store } from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {getLoaded, getLoading, getServerError} from '../../../../store/admin-auth-store/store/admin-auth-selectors';
 import {login} from '../../../../store/admin-auth-store/store/admin-auth.actions';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-login-block',
@@ -16,12 +17,16 @@ export class AdminLoginBlockComponent implements OnInit {
 
   serverError = '';
 
-  constructor(private store$: Store) { }
+  constructor(private store$: Store, private httpClient: HttpClient) { }
 
   ngOnInit(): void {
   }
 
   onLogin(loginPayload: {login: string, password: string}): void {
     this.store$.dispatch(login(loginPayload));
+  }
+
+  testProfile(): any {
+    this.httpClient.get('http://localhost:3000/auth/profile').subscribe(console.log);
   }
 }
