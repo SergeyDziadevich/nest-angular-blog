@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
+import {Store, StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 
 import { ADMIN_AUTH_FEATURE_NAME, adminAuthReducer } from './store/admin-auth-reducer';
@@ -8,6 +8,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {AdminAuthEffects} from './store/admin-auth.effects';
 import {JwtModule} from '@auth0/angular-jwt';
 import {AdminAuthInterceptor} from './interceptors/admin-auth.interceptor';
+import {initAdminAuth} from './store/admin-auth.actions';
 
 
 @NgModule({
@@ -31,4 +32,8 @@ import {AdminAuthInterceptor} from './interceptors/admin-auth.interceptor';
     }
   ]
 })
-export class AdminAuthStoreModule { }
+export class AdminAuthStoreModule {
+  constructor(store$: Store) {
+    store$.dispatch(initAdminAuth());
+  }
+}
