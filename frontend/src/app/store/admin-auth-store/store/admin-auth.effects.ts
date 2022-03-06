@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {login, loginFailed, loginSuccess} from './admin-auth.actions';
-import {switchMap, map, catchError} from 'rxjs/operators';
+import {of, timer} from 'rxjs';
+import {switchMap, map, catchError, delayWhen, filter, first} from 'rxjs/operators';
+import { login, loginFailed, loginSuccess } from './admin-auth.actions';
 import { AdminAuthService } from '../services/admin-auth.service';
-import {of} from 'rxjs';
+import { AuthData } from './admin-auth-reducer';
+import {select, Store } from '@ngrx/store';
+import {isAuth} from './admin-auth-selectors';
 
 @Injectable()
 export class AdminAuthEffects {
@@ -16,13 +19,29 @@ export class AdminAuthEffects {
           password: action.password,
         })
       ),
-      map(loginSuccessData => loginSuccess(loginSuccessData)),
-      catchError((err => of(loginFailed({serverError: err.message}))))
+      map((loginSuccessData: AuthData) => loginSuccess(loginSuccessData)),
+      catchError((err) => of(loginFailed({ serverError: err.message })))
+    )
+  );
+
+  refresh$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loginSuccess),
+      delayWhen((action: AuthData) => timer(action.exp * 1000 - 60 * 1000 - Date.now())),
+      switchMap(() => this.store$.pipe(
+        select(isAuth),
+        first(),
+        filter(isAdminAuth => isAdminAuth)
+      )),
+      switchMap((action) => this.adminAuthService.refresh()),
+      map((loginSuccessData: AuthData) => loginSuccess(loginSuccessData)),
+      catchError((err) => of(loginFailed({ serverError: err.message })))
     )
   );
 
   constructor(
     private actions$: Actions,
-    private adminAuthService: AdminAuthService
+    private adminAuthService: AdminAuthService,
+    private store$: Store
   ) {}
 }
