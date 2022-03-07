@@ -10,7 +10,6 @@ import {JwtModule} from '@auth0/angular-jwt';
 import {AdminAuthInterceptor} from './interceptors/admin-auth.interceptor';
 import {initAdminAuth} from './store/admin-auth.actions';
 
-
 @NgModule({
   declarations: [],
   imports: [
