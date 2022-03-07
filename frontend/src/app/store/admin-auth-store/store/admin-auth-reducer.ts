@@ -1,10 +1,21 @@
 import { createReducer, on } from '@ngrx/store';
-import { login, loginFailed, loginSuccess } from './admin-auth.actions';
+import {
+  login,
+  loginFailed,
+  loginSuccess,
+  logoutSuccess,
+} from './admin-auth.actions';
 
 export const ADMIN_AUTH_FEATURE_NAME = 'admin-auth';
 
 export interface AuthData {
   accessToken: string;
+  id: number;
+  iat: number;
+  /**
+   * Expiring at timestamp
+   */
+  exp: number;
 }
 
 export interface AdminAuthState {
@@ -23,18 +34,19 @@ const initialState: AdminAuthState = {
 export const adminAuthReducer = createReducer(
   initialState,
   on(login, (state) => ({ ...state, loading: true })),
-  on(loginSuccess, (state, authData: AuthData) => ({
+  on(loginSuccess, (state, { authData }) => ({
     ...state,
-    loading: false,
-    loaded: true,
-    serverError: '',
     authData,
+    loaded: true,
+    loading: false,
+    serverError: '',
   })),
-  on(loginFailed, (state, {serverError}) => ({
+  on(loginFailed, (state, { serverError }) => ({
     ...state,
     loading: false,
     loaded: true,
     serverError,
-    authData: null
-  }))
+    authData: null,
+  })),
+  on(logoutSuccess, (state) => ({ ...initialState, authData: null }))
 );

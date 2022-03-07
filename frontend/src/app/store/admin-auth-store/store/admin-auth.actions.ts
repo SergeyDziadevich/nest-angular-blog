@@ -1,4 +1,5 @@
 import {createAction, props} from '@ngrx/store';
+import {AuthData} from './admin-auth-reducer';
 
 export const login = createAction(
   '[Admin Auth] Login',
@@ -7,10 +8,22 @@ export const login = createAction(
 
 export const loginSuccess = createAction(
   '[Admin Auth] Login Success',
-  props<{ accessToken: string }>()
+  props<{ authData: AuthData }>()
 );
 
 export const loginFailed = createAction(
   '[Admin Auth] Login Failed',
   props<{ serverError: string }>()
+);
+
+export const initAdminAuth = createAction(
+  '[Admin Auth] init admin auth'
+);
+
+export const logoutSuccess = createAction(
+  '[Admin Auth] logout Success'
+);
+
+export const extractLoginData = createAction(
+  '[Admin Auth] extract login data'
 );
