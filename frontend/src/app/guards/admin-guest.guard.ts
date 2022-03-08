@@ -7,13 +7,21 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
+import { AdminAuthService } from '../store/admin-auth-store/services/admin-auth.service';
+import { first, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AdminGuestGuard implements CanActivate, CanLoad {
+  constructor(
+    private router: Router,
+    private adminAuthService: AdminAuthService
+  ) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -22,7 +30,7 @@ export class AdminGuestGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return true;
+    return this.getIsGuest();
   }
 
   canLoad(
@@ -33,6 +41,19 @@ export class AdminGuestGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return true;
+    return this.getIsGuest();
+  }
+
+  private getIsGuest(): Observable<boolean> {
+    return this.adminAuthService.isGuest$.pipe(
+      first(),
+      map((isGuest) => {
+        if (!isGuest) {
+          this.router.navigateByUrl('/admin');
+        }
+
+        return isGuest;
+      })
+    );
   }
 }
