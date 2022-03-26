@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { AdminFooterBlockModule } from '../../view/admin-footer-block/admin-footer-block.module';
+import { AdminHeaderBlockModule } from '../../view/admin-header-block/admin-header-block.module';
 
 @NgModule({
-  declarations: [],
+  declarations: [AdminPageComponent],
   imports: [
     CommonModule,
+    AdminFooterBlockModule,
+    AdminHeaderBlockModule,
     RouterModule.forChild([
       {
         path: '',
@@ -14,8 +19,10 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'dashboard',
-        loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
-      }
+        component: AdminPageComponent,
+        loadChildren: () =>
+          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      },
     ]),
   ],
 })

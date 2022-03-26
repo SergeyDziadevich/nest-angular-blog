@@ -17,6 +17,7 @@ import {
   login,
   loginFailed,
   loginSuccess,
+  logout,
   logoutSuccess,
 } from './admin-auth.actions';
 import { AdminAuthService } from '../services/admin-auth.service';
@@ -115,6 +116,14 @@ export class AdminAuthEffects {
       ),
     { dispatch: false }
   );
+
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(logout),
+    map(() => {
+      localStorage.removeItem('authData');
+      return logoutSuccess();
+    })
+  ));
 
   constructor(
     private actions$: Actions,
