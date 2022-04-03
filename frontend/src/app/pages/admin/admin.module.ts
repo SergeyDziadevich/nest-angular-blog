@@ -16,26 +16,29 @@ import {AdminNavBlockModule} from '../../view/admin-nav-block/admin-nav-block.mo
     RouterModule.forChild([
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'dashboard',
-      },
-      {
-        path: 'dashboard',
         component: AdminPageComponent,
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
-      },
-      {
-        path: 'grid/:namespace/:entity',
-        component: AdminPageComponent,
-        loadChildren: () =>
-          import('./grid/grid.module').then((m) => m.GridModule),
-      },
-      {
-        path: 'form/:namespace/:entity',
-        component: AdminPageComponent,
-        loadChildren: () =>
-          import('./form/form.module').then((m) => m.FormModule),
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            redirectTo: 'dashboard',
+          },
+          {
+            path: 'dashboard',
+            loadChildren: () =>
+              import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+          },
+          {
+            path: 'grid/:namespace/:entity',
+            loadChildren: () =>
+              import('./grid/grid.module').then((m) => m.GridModule),
+          },
+          {
+            path: 'form/:namespace/:entity',
+            loadChildren: () =>
+              import('./form/form.module').then((m) => m.FormModule),
+          },
+        ],
       },
     ]),
   ],
