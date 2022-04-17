@@ -1,10 +1,6 @@
 import {createFeatureSelector, createSelector} from '@ngrx/store';
 import {ADMIN_AUTH_FEATURE_NAME, AdminAuthState} from './admin-auth-reducer';
 
-export interface FeatureState {
-  counter: number;
-}
-
 export interface AppState {
   'admin-auth': AdminAuthState;
 }
